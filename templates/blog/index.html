@@ -1,0 +1,294 @@
+{% extends 'partials/base.html' %}
+
+{% block content %}
+<link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+
+<style>
+    
+    .container {
+        overflow: auto;
+    }
+    .welcome-c1 {
+        float: left;
+    }
+    .welcome-c2 {
+        float: right;
+    }
+    .popup {
+    width: 400px;
+    height: 400px;
+    border: 0px none rgba(100, 100, 100, 0);
+    border-radius: 55px;
+    background:
+        radial-gradient(
+            110% 146% at 86% -17%,
+            rgb(15, 13, 41) 0%,
+            rgba(19, 13, 92, 0.26) 55%,
+            rgba(90, 35, 248, 0) 90%
+        ),
+        linear-gradient(
+            44deg,
+            rgb(27, 37, 43) 2%,
+            rgba(106, 103, 227, 0) 87%
+        ),
+        
+       
+        linear-gradient(
+            313.04deg,
+            rgb(0, 0, 0) 100%,
+            rgb(7, 7, 12) 10%
+        );
+    background-blend-mode: normal, normal, normal, normal, normal;
+    border-radius: 6px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0.1);
+    text-align: center;
+    padding: 0 30px 30px;
+    color: whitesmoke;
+    visibility: hidden; 
+    transition: transform 0.4s, top 0.4s;
+    box-shadow:
+        inset 12px 12px 24px 0px #343434,
+        inset -16px -16px 16px 0px rgb(43, 38, 16),
+        15px 15px 16px 0px rgb(191, 221, 20);
+    z-index: 9999;
+}
+
+.open-popup {
+    visibility: visible;
+    top: 50%;
+    transform: translate(-50%, -50%) scale(1);
+}
+
+
+
+    .close-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    left: 135px;
+    cursor: pointer;
+    background: transparent;
+    border: none;
+    font-size: 16px;
+    color: white;
+}
+
+.close-btn:hover {
+    color: #ccc;
+}
+
+    .img-thumbnail{
+        height: 200px;
+        width: 200px;
+        border-radius: 50%;
+        font-weight: bolder;
+    }
+    
+.marquee{
+    background-color: black;
+    color: #C5FF95;
+    font-family: 'Roboto', sans-serif;
+    
+}
+#openit{
+    background-color: #101820FF;
+    font-family: 'Roboto', sans-serif;
+    color: #FEE715FF;
+}
+.button {
+  position: relative;
+  width: 3em;
+  height: 3em;
+  border: none;
+  background: rgba(180, 83, 107, 0.11);
+  border-radius: 5px;
+  transition: background 0.5s;
+  left:90px;
+}
+
+.X {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 2em;
+  height: 1.5px;
+  background-color: rgb(255, 255, 255);
+  transform: translateX(-50%) rotate(45deg);
+}
+
+.Y {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 2em;
+  height: 1.5px;
+  background-color: #fff;
+  transform: translateX(-50%) rotate(-45deg);
+}
+
+.close {
+  position: absolute;
+  display: flex;
+  padding: 0.8rem 1.5rem;
+  align-items: center;
+  justify-content: center;
+  transform: translateX(-50%);
+  top: -70%;
+  left: 50%;
+  width: 3em;
+  height: 1.7em;
+  font-size: 12px;
+  background-color: rgb(19, 22, 24);
+  color: rgb(187, 229, 236);
+  border: none;
+  border-radius: 3px;
+  pointer-events: none;
+  opacity: 0;
+}
+
+.button:hover {
+  background-color: rgb(211, 21, 21);
+}
+
+.button:active {
+  background-color: rgb(130, 0, 0);
+}
+
+.button:hover > .close {
+  animation: close 0.2s forwards 0.25s;
+}
+
+@keyframes close {
+  100% {
+    opacity: 1;
+  }
+}
+.form-group{
+    margin-top: 40px;
+    
+}
+.post-content {
+    display: -webkit-box;
+    -webkit-line-clamp: 4;
+    -webkit-box-orient: vertical; /* Needed for Firefox */
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+
+
+
+
+</style>
+
+<div class="container">
+    <div class="row mt-6 pt-8">
+        <div class="welcome-c1" style="float: left;">
+            <main class="container">
+                <div class="bg-body-tertiary p-5 rounded">
+                    <h1>Hello {{ request.user }}</h1>
+                    <p class="lead">"Hey, what's going on today? Any thoughts or plans in mind?"<br>It's a gateway to understanding someone's agenda, interests, and aspirations. <br>landscape is ever-evolving, offering endless possibilities and innovations to explore.</p>
+                    <a class="btn btn-lg btn-primary" role="button" id="openit" onclick="openpopup()">Start posting »</a>
+                   
+
+                    <div class="popup">
+                        
+                          <div class="close-btn" onclick="closepopup()"><button class="button" href="{% url 'blog-index' %}">
+                            <span class="X"></span>
+                            <span class="Y"></span>
+                            <div class="close" href="{% url 'blog-index' %}" >Close</div>
+                          </button></div>
+                          
+                        <div class="card-body">
+                            <form method="POST">
+                                {% csrf_token %}
+                                <div class="form-group">
+                                    {{ form }}
+                                </div>
+                                <div class="form-group">
+                                    <button type="submit" class="btn btn-primary btn-block" onclick="closepopup()">Post</button>
+                                    {% if request.user.is_authenticated %}
+                                    <p>{{request.user}} you can Edit Your post in post section</p>
+                                    <a href="{% url 'logout' %}">LOGOUT</a>
+                                    {% else %}
+                                    <a  href="{% url 'login' %}">login</a>
+                                    {% endif %}
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+
+                </div>
+            </main>
+        </div>
+
+        <div class="topics-c1">
+            <div class="col-md-9">
+                <h1>Trending Topics</h1>
+                <form method="GET" action="{% url 'search' %}">
+                    <button type="submit" style="color: #FEE715FF; background-color:#101820FF; font-family: 'Roboto', sans-serif;">Search more</button>
+                    {% if posts %}
+                    <ul>
+                        {% for post in posts|slice:":5" %}
+                        <li><a href="{% url 'blog-post-details' pk=post.id %}">{{ post.title }}</a></li>
+                        {% endfor %}
+                    </ul>
+                    {% else %}
+                    <p>No results found.</p>
+                    {% endif %}
+            </div>
+            </form>
+        </div>
+
+        <div class="posts">
+            <h1>Recent Posts</h1>
+            <marquee behavior="" direction="" class="marquee">Please click on the post title to access the detailed view, including likes and comments. Additionally, you have the option to edit or delete your posts. Remember to upload a profile image as well.</marquee>
+            {% for post in posts %}
+            <div class="card shadow my-3">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-3">
+
+                            {% if post.author.profilemodel.image %}
+    <img class="img-thumbnail" src="{{ post.author.profilemodel.image.url }}" alt="img">
+{% else %}
+<img  class="img-thumbnail" src="templates\blog\default.jpg" alt="img">
+    <p>No image available</p>
+{% endif %}
+
+                            
+                        </div>
+                        <div class="col-md-9">
+                            <small>{{ post.date_create }}</small>
+                            <hr>
+                            <a class="h3" href="{% url 'blog-post-details' post.id %}">{{ post.title }}</a>
+                            <p class="text-justify my-3 post-content">
+                                {{ post.content }}
+                            </p>
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
+            
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+<script>
+    let popup = document.querySelector(".popup");
+    function openpopup() {
+        popup.classList.add("open-popup");
+    }
+    function closepopup() {
+        popup.classList.remove("open-popup");
+    }
+</script>
+
+{% endblock %}

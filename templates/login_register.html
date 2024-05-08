@@ -1,0 +1,179 @@
+{% extends 'partials/base.html' %}
+
+{% block content %}
+
+{% if page == 'login' %}
+    <style>
+       .centered {
+            position: absolute;
+            top: 60%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 500px;
+        }
+      
+       .form {
+       
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            max-width: 450px;
+            background-color: #153448;
+            padding: 20px;
+            border-radius: 20px;
+            position: relative;
+            color:   whitesmoke;
+        }
+        .btn {
+  border: none;
+  width: 13em;
+  height: 4em;
+  border-radius: 3em;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+  background: whitesmoke;
+  cursor: pointer;
+  transition: all 450ms ease-in-out;
+  
+}
+
+.sparkle {
+  fill: #AAAAAA;
+  transition: all 800ms ease;
+}
+
+.text {
+  font-weight: 600;
+  color: #AAAAAA;
+  font-size: medium;
+}
+
+.btn:hover {
+  background: linear-gradient(0deg,#A47CF3,#683FEA);
+  box-shadow: inset 0px 1px 0px 0px rgba(255, 255, 255, 0.4),
+  inset 0px -4px 0px 0px rgba(0, 0, 0, 0.2),
+  0px 0px 0px 4px rgba(255, 255, 255, 0.2),
+  0px 0px 180px 0px #9917FF;
+  transform: translateY(-2px);
+}
+
+.btn:hover .text {
+  color: white;
+}
+
+.btn:hover .sparkle {
+  fill: white;
+  transform: scale(1.2);
+} 
+
+
+
+    </style>
+    <div class="cover">
+        <div class="centered">
+            <form action="" method="POST" class="form">
+                {% csrf_token %}
+                <label for="username">Username:</label>
+                <input type="text" name="username" id="username" placeholder="Enter username"><br>
+                <label for="password">Password:</label>
+                <input type="password" name="password" id="password" placeholder="Enter password"><br>
+                <input type="submit" class="btn" value="Login">
+              
+            <p>Haven't signed up yet? <a href="{% url 'register' %}">Signup</a></p>
+        </div>
+    </div>
+{% else %}
+    <style>
+       .centered {
+            position: absolute;
+            top: 60%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+        .form {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            max-width: 550px;
+            background-color: #153448;
+            padding: 20px;
+            border-radius: 20px;
+            position: relative;
+            color: whitesmoke;
+        }
+        .btn {
+  border: none;
+  width: 32em;
+  height: 2em;
+  border-radius: 3em;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+  background: whitesmoke;
+  cursor: pointer;
+  transition: all 450ms ease-in-out;
+  
+}
+
+.sparkle {
+  fill: #AAAAAA;
+  transition: all 800ms ease;
+}
+
+.text {
+  font-weight: 600;
+  color: #AAAAAA;
+  font-size: medium;
+}
+
+.btn:hover {
+  background: linear-gradient(0deg,#A47CF3,#683FEA);
+  box-shadow: inset 0px 1px 0px 0px rgba(255, 255, 255, 0.4),
+  inset 0px -4px 0px 0px rgba(0, 0, 0, 0.2),
+  0px 0px 0px 4px rgba(255, 255, 255, 0.2),
+  0px 0px 180px 0px #9917FF;
+  transform: translateY(-2px);
+}
+
+.btn:hover .text {
+  color: white;
+}
+
+.btn:hover .sparkle {
+  fill: white;
+  transform: scale(1.2);
+} 
+@media (max-width: 768px) {
+       .centered {
+            width: 90%; 
+            margin: auto; 
+        }
+
+       .form {
+            max-width: 100%;
+        }
+
+       .btn {
+            width: 100%; 
+        }
+    }
+
+       
+    </style>
+    <div class="cover">
+        <div class="centered">
+            <form action="" method="POST" class="form">
+                {% csrf_token %}
+                {{form.as_p}}
+              
+                <input type="submit" class="btn" value="Register">
+            </form>
+            <p>Already signed up? <a href="{% url 'login' %}">Login</a></p>
+        </div>
+    </div>
+{% endif %}
+
+{% endblock %}
