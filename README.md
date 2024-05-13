@@ -5,7 +5,11 @@ Welcome to our Django-powered blogging platform This project showcases a robust 
 
 Features
 User Authentication: Users can register, log in, and log out of the system securely.
+
+
 Profile Management: Each user has a dedicated profile page where they can manage their personal information.
+
+
 CRUD Operations: The platform supports full CRUD (Create, Retrieve, Update, Delete) operations on blog posts. Users can create new posts, view existing ones, update their posts, and delete them as needed.
 Blog Interaction: Features like liking posts, commenting on them, and sending messages to other users are integrated for enhanced user engagement.
 Developer Contact: A special section for developers, providing a direct way to contact the developer team for any queries or feedback.
